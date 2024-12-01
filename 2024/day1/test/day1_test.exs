@@ -57,4 +57,30 @@ defmodule Day1Test do
         raise "Error reading file: #{reason}"
     end
   end
+
+  test "find_similarity_score returns 0 for empty lists" do
+    assert Day1.generate_lists("") |> Day1.find_similarity_score() === 0
+  end
+
+  test "find_similarity_score returns sum of similarity for first list" do
+    assert Day1.generate_lists("""
+    3 4
+    4 3
+    2 5
+    1 3
+    3 9
+    3 3
+    """) |> Day1.find_similarity_score() === 31
+  end
+
+  test "find_similarity_score integration" do
+    case File.read("test/test_data.txt") do
+      {:ok, content} ->
+        assert Day1.generate_lists(content)
+          |> Day1.find_similarity_score() === 18805872
+
+      {:error, reason} ->
+        raise "Error reading file: #{reason}"
+    end
+  end
 end

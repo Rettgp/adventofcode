@@ -37,4 +37,13 @@ defmodule Day1 do
       end)
       |> Enum.sum()
   end
+
+  @doc """
+  """
+  def find_similarity_score({[], _list2}), do: 0
+  def find_similarity_score({list1, list2}) do
+    Enum.reduce(list1, 0, fn val1, accumulator ->
+      accumulator + val1 * Enum.count(list2, fn val2 -> val2 === val1 end)
+    end)
+  end
 end
