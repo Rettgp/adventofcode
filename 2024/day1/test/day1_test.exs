@@ -62,6 +62,14 @@ defmodule Day1Test do
     assert Day1.generate_lists("") |> Day1.find_similarity_score() === 0
   end
 
+  test "find_similarity_score returns 0 if no similarities" do
+    assert Day1.generate_lists("""
+    1 4
+    2 5
+    3 6
+    """) |> Day1.find_similarity_score() === 0
+  end
+
   test "find_similarity_score returns sum of similarity for first list" do
     assert Day1.generate_lists("""
     3 4
