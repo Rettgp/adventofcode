@@ -1,18 +1,40 @@
 defmodule Day1 do
   @moduledoc """
-  Documentation for `Day1`.
+  Generate two sorted lists from input and then get the
+  sequentially total distance between the two lists
+
+  Ex.
+  1 3
+  4 2
+  2 5
+
+  Sorted...
+  1 2 -> Difference 1
+  2 3 -> Difference 1
+  4 5 -> Difference 1
+
+  Total Distance: 3
   """
 
   @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> Day1.hello()
-      :world
-
+    This assumes a balanced list of pairs
   """
-  def hello do
-    :world
+  def generate_lists(input_string) do
+    String.split(input_string, ~r/\r?\n/, trim: true)
+    |> Enum.map(fn str ->
+      [num1, num2] = String.split(str, ~r/\s+/)
+      {String.to_integer(num1), String.to_integer(num2)}
+    end)
+    |> Enum.unzip()
+  end
+
+  @doc """
+  """
+  def find_total_distance({list1, list2}) do
+    Enum.zip(Enum.sort(list1), Enum.sort(list2))
+      |> Enum.map(fn {num1, num2} ->
+        abs(num1 - num2)
+      end)
+      |> Enum.sum()
   end
 end
