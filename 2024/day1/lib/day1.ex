@@ -15,11 +15,14 @@ defmodule Day1 do
 
   Total Distance: 3
   """
+  @typedoc "A tuple of lists to compare against"
+  @type list_pair() :: {list(), list()}
 
   @doc """
     This assumes a balanced list of pairs
   """
-  def generate_lists(input_string) do
+  @spec generate_lists(String.t()) :: list_pair()
+  def generate_lists(input_string) when is_binary(input_string) do
     String.split(input_string, ~r/\r?\n/, trim: true)
     |> Enum.map(fn str ->
       [num1, num2] = String.split(str, ~r/\s+/)
@@ -30,6 +33,7 @@ defmodule Day1 do
 
   @doc """
   """
+  @spec find_total_distance(list_pair()) :: integer()
   def find_total_distance({list1, list2}) do
     Enum.zip(Enum.sort(list1), Enum.sort(list2))
       |> Enum.map(fn {num1, num2} ->
@@ -40,6 +44,7 @@ defmodule Day1 do
 
   @doc """
   """
+  @spec find_similarity_score(list_pair()) :: integer()
   def find_similarity_score({[], _list2}), do: 0
   def find_similarity_score({list1, list2}) do
     Enum.reduce(list1, 0, fn val1, accumulator ->
