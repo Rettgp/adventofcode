@@ -33,7 +33,57 @@ defmodule Day3Test do
     assert Enum.at(mul3, 2) === "mul(-1,3)"
   end
 
-  test "mul calculates each multiply directive" do
+  test "find_mult returns dont found" do
+    mul = Day3.find_mul("don't()mul(1,2)don't()")
+    assert length(mul) == 3
+    assert Enum.at(mul, 0) === Day3.block
+    assert Enum.at(mul, 1) === "mul(1,2)"
+    assert Enum.at(mul, 2) === Day3.block
+  end
+
+  test "find_mult returns do found" do
+    mul = Day3.find_mul("do()mul(1,2)do()")
+    assert length(mul) == 3
+    assert Enum.at(mul, 0) === Day3.run
+    assert Enum.at(mul, 1) === "mul(1,2)"
+    assert Enum.at(mul, 2) === Day3.run
+  end
+
+  test "mul calculates multiply directive" do
     assert Day3.mul(["mul(1,2)"]) === 2
   end
+
+  test "mul calculates multiply directive with three digits" do
+    assert Day3.mul(["mul(100,200)"]) === 20000
+  end
+
+  test "mul calculates negative multiply directives" do
+    assert Day3.mul(["mul(-1,2)"]) === -2
+    assert Day3.mul(["mul(-1,-2)"]) === 2
+    assert Day3.mul(["mul(1,-2)"]) === -2
+  end
+
+  test "mul calculates sum of all multiply directives" do
+    assert Day3.mul(["mul(1,2)", "mul(2,3)", "mul(3,4)", "mul(4,5)"]) === 40
+  end
+
+  test "mul ignores anything after a block" do
+    assert Day3.mul(["mul(1,2)", Day3.block, "mul(2,3)"]) === 2
+  end
+
+  test "mul resumes when a run occurs after a block" do
+    assert Day3.mul(["mul(1,2)", Day3.block, "mul(2,3)", Day3.run, "mul(3,4)"]) === 14
+  end
+
+  test "part2 integration" do
+    case File.read("test/test_data.txt") do
+      {:ok, content} ->
+        assert Day3.find_mul(content)
+        |> Day3.mul() === 74838033
+
+      {:error, reason} ->
+        raise "Error reading file: #{reason}"
+    end
+  end
+
 end
