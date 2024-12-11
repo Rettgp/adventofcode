@@ -5,15 +5,16 @@ defmodule Day5 do
 
   @doc """
   """
-  def specul_sort(rules) do
-    pair_rules = Enum.map(rules, fn rule ->
-      List.to_tuple(String.split(rule, "|") |> Enum.map(&String.to_integer/1))
-    end)
-    IO.inspect(pair_rules)
+  def specul_sorted?(data, rules) do
+    rule_map =
+      rules
+      |> Enum.map(fn [a, b] ->
+        {a, b}
+      end)
+      |> Map.new
 
-    fn a, b ->
-      IO.inspect({a, b})
-      !Enum.find(pair_rules, fn x -> x == {b, a} end)
-    end
+    IO.inspect(rule_map)
+
+    false
   end
 end
