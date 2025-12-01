@@ -22,24 +22,18 @@ defmodule Day1 do
   end
 
   defp mod100(n), do: rem(rem(n, 100) + 100, 100)
+
+  @spec count_zero_passes(integer(), integer()) :: non_neg_integer()
   defp count_zero_passes(_, 0), do: 0
 
   @spec count_zero_passes(integer(), integer()) :: non_neg_integer()
-  defp count_zero_passes(current, move) when move > 0 do
-    first = rem(100 - current, 100)
-    first = if first == 0, do: 100, else: first
+  defp count_zero_passes(current, move) do
+    offset =
+      if move >= 0,
+        do: rem(100 - rem(current, 100), 100),
+        else: rem(current, 100)
 
-    if first > move do
-      0
-    else
-      1 + div(move - first, 100)
-    end
-  end
-
-  @spec count_zero_passes(integer(), integer()) :: non_neg_integer()
-  defp count_zero_passes(current, move) when move < 0 do
-    first = rem(current, 100)
-    first = if first == 0, do: 100, else: first
+    first = if offset == 0, do: 100, else: offset
 
     if abs(move) < first do
       0
