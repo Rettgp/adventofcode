@@ -75,7 +75,6 @@ defmodule Day2 do
       n_str = Integer.to_string(n)
       has_duplicate_sequence(n_str)
     end)
-    |> tap(&IO.inspect(&1, label: "Numbers with duplicate sequences"))
     |> Enum.sum()
   end
 
@@ -96,7 +95,7 @@ defmodule Day2 do
     end)
     |> Enum.filter(fn n ->
       n_str = Integer.to_string(n)
-      has_duplicate_sequence(n_str) or has_repeating_sequence(n_str) or starts_with_zero(n_str)
+      has_repeating_sequence(n_str) or starts_with_zero(n_str)
     end)
     |> tap(&IO.inspect(&1, label: "Numbers with duplicate sequences"))
     |> Enum.sum()
